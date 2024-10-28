@@ -1,9 +1,12 @@
 package com.jsp.pharmassist.entity;
 
+import com.jsp.pharmassist.config.GenerateCustomId;
+
 import jakarta.persistence.Id;
 
 public class Admin {
 	@Id
+	@GenerateCustomId
 	private String adminId;
 	private String email;
 	private String phoneNo;
