@@ -2,8 +2,9 @@ package com.jsp.pharmassist.entity;
 
 import com.jsp.pharmassist.config.GenerateCustomId;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
+@Entity
 public class Admin {
 	@Id
 	@GenerateCustomId
