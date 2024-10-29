@@ -8,7 +8,7 @@ import com.jsp.pharmassist.responsedtos.AdminResponse;
 
 @Component
 public class AdminMapper {
-	public Admin mapToUser(AdminRequest adminRequest, Admin admin) {
+	public Admin mapToAdmin(AdminRequest adminRequest, Admin admin) {
 		admin.setEmail(adminRequest.getEmail());
 		admin.setPassword(adminRequest.getPassword());
 		admin.setPhoneNo(adminRequest.getPhoneNo());
@@ -16,7 +16,7 @@ public class AdminMapper {
 		return admin;
 	}
 
-	public AdminResponse mapToUserResponse(Admin admin) {
+	public AdminResponse mapToAdminResponse(Admin admin) {
 		AdminResponse response = new AdminResponse();
 		response.setAdminId(admin.getAdminId());
 		response.setEmail(admin.getEmail());

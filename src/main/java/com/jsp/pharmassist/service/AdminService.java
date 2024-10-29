@@ -1,6 +1,8 @@
 package com.jsp.pharmassist.service;
 
+
 import com.jsp.pharmassist.entity.Admin;
+import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
 import com.jsp.pharmassist.mapper.AdminMapper;
 import com.jsp.pharmassist.repository.AdminRepository;
 import com.jsp.pharmassist.requestdtos.AdminRequest;
@@ -32,20 +34,22 @@ public class AdminService {
 	
 
 	public AdminResponse addAdmin(AdminRequest userRequest) {
-		Admin user = adminRepository.save(adminMapper.mapToUser(userRequest, new Admin()));
-		return adminMapper.mapToUserResponse(user);
+		Admin user = adminRepository.save(adminMapper.mapToAdmin(userRequest, new Admin()));
+		return adminMapper.mapToAdminResponse(user);
 	}
 	
 	public List<AdminResponse> findAllAdmins() {
 		return adminRepository.findAll()
 							  .stream()
-							  .map(adminMapper::mapToUserResponse)
+							  .map(adminMapper::mapToAdminResponse)
 							  .toList();
 	}
 
 	
-	public Optional<Admin> findById(String id) {
-		return adminRepository.findById(id);
+	public AdminResponse findAdminById(String adminId) {
+		return adminRepository.findById(adminId)
+				  .map(adminMapper :: mapToAdminResponse)
+				  .orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the user"));
 	}
 
 	public void deleteById(String id) {

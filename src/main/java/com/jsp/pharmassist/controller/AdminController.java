@@ -1,7 +1,7 @@
 package com.jsp.pharmassist.controller;
 
 
-import com.jsp.pharmassist.entity.Admin;
+
 import com.jsp.pharmassist.requestdtos.AdminRequest;
 import com.jsp.pharmassist.responsedtos.AdminResponse;
 import com.jsp.pharmassist.service.AdminService;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class AdminController {
@@ -44,10 +43,11 @@ public class AdminController {
         return builder.success(HttpStatus.FOUND, "Admins found",response );
     }
 
-    @GetMapping("/{id}")
-    public Optional<Admin> getAdminById(@PathVariable String id) {
-        return adminService.findById(id);
-    }
+    @GetMapping("/admins/{userId}")
+	public ResponseEntity<ResponseStructure<AdminResponse>> findUserById(@PathVariable String userId) {
+    	AdminResponse response = adminService.findAdminById(userId);	
+		return builder.success(HttpStatus.FOUND, "Found successfully", response);
+	}
     
 //    @PutMapping("/{id}")
 //    public Admin updateAdmin(@PathVariable String id, @RequestBody Admin admin) {
