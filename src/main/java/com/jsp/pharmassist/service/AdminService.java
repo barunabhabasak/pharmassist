@@ -31,28 +31,38 @@ public class AdminService {
 		this.appResponseBuilder = appResponseBuilder;
 		this.adminMapper = adminMapper;
 	}
-	
+
 
 	public AdminResponse addAdmin(AdminRequest userRequest) {
 		Admin user = adminRepository.save(adminMapper.mapToAdmin(userRequest, new Admin()));
 		return adminMapper.mapToAdminResponse(user);
 	}
-	
+
 	public List<AdminResponse> findAllAdmins() {
 		return adminRepository.findAll()
-							  .stream()
-							  .map(adminMapper::mapToAdminResponse)
-							  .toList();
+				.stream()
+				.map(adminMapper::mapToAdminResponse)
+				.toList();
+	}
+
+
+	public AdminResponse findAdminById(String adminId) {
+		return adminRepository.findById(adminId)
+				.map(adminMapper :: mapToAdminResponse)
+				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the user"));
 	}
 
 	
-	public AdminResponse findAdminById(String adminId) {
-		return adminRepository.findById(adminId)
-				  .map(adminMapper :: mapToAdminResponse)
-				  .orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the user"));
-	}
 
-	public void deleteById(String id) {
-		adminRepository.deleteById(id);
+
+	public AdminResponse deleteAdminById(String adminId) {
+
+		return adminRepository.findById(adminId)
+				.map(user ->{
+					adminRepository.delete(user);
+					return user;
+				})
+				.map(adminMapper :: mapToAdminResponse)
+				.orElseThrow(() ->new AdminNotFoundByIdException("Failed to Delete the user"));
 	}
 }

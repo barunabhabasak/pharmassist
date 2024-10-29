@@ -1,7 +1,5 @@
 package com.jsp.pharmassist.controller;
 
-
-
 import com.jsp.pharmassist.requestdtos.AdminRequest;
 import com.jsp.pharmassist.responsedtos.AdminResponse;
 import com.jsp.pharmassist.service.AdminService;
@@ -43,20 +41,18 @@ public class AdminController {
         return builder.success(HttpStatus.FOUND, "Admins found",response );
     }
 
-    @GetMapping("/admins/{userId}")
-	public ResponseEntity<ResponseStructure<AdminResponse>> findUserById(@PathVariable String userId) {
-    	AdminResponse response = adminService.findAdminById(userId);	
+    @GetMapping("/admins/{adminId}")
+	public ResponseEntity<ResponseStructure<AdminResponse>> findAdminById(@PathVariable String adminId) {
+    	AdminResponse response = adminService.findAdminById(adminId);	
 		return builder.success(HttpStatus.FOUND, "Found successfully", response);
 	}
     
-//    @PutMapping("/{id}")
-//    public Admin updateAdmin(@PathVariable String id, @RequestBody Admin admin) {
-//        admin.setAdminId(id);
-//        return adminService.save(admin);
-//    }
+    
 
-    @DeleteMapping("/{id}")
-    public void deleteAdmin(@PathVariable String id) {
-        adminService.deleteById(id);
-    }
+    @DeleteMapping("/admins/{adminId}")
+	public ResponseEntity<ResponseStructure<AdminResponse>> deleteAdminById(@PathVariable String adminId){
+    	AdminResponse response = adminService.deleteAdminById(adminId);
+		return builder.success(HttpStatus.OK, "Deleted successfully", response);
+
+	}
 }
