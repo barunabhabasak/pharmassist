@@ -2,6 +2,8 @@ package com.jsp.pharmassist.controller;
 
 import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.service.AdminService;
+import com.jsp.pharmassist.util.AppResponseBuilder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,14 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/admins")
 public class AdminController {
 
-    @Autowired
     private AdminService adminService;
+    private AppResponseBuilder builder;
+    
+    public AdminController(AdminService adminService, AppResponseBuilder builder) {
+        this.adminService = adminService;
+        this.builder = builder;
+    }
 
-   
-    @PostMapping
+	@PostMapping("/admins")
     public Admin createAdmin(@RequestBody Admin admin) {
         return adminService.save(admin);
     }
