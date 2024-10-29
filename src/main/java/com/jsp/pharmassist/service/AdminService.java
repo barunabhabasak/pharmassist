@@ -52,7 +52,16 @@ public class AdminService {
 				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the user"));
 	}
 
-	
+	public AdminResponse updateAdmin(AdminRequest adminRequest, String adminId) {
+
+		return adminRepository.findById(adminId)
+				  .map(exAdmin -> {
+					  adminMapper.mapToAdmin(adminRequest, exAdmin);
+					  return adminRepository.save(exAdmin);
+				  })
+				  .map(adminMapper :: mapToAdminResponse)
+				  .orElseThrow(() -> new AdminNotFoundByIdException("Failed to Update the user"));
+	}
 
 
 	public AdminResponse deleteAdminById(String adminId) {
