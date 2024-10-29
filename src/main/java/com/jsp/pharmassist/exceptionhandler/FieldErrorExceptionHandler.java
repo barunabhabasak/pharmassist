@@ -16,8 +16,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.jsp.pharmassist.util.ErrorStructure;
 
-
-
 @RestControllerAdvice
 public class FieldErrorExceptionHandler extends ResponseEntityExceptionHandler{
 	

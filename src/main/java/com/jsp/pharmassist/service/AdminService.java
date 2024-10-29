@@ -1,7 +1,5 @@
 package com.jsp.pharmassist.service;
 
-
-
 import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.mapper.AdminMapper;
 import com.jsp.pharmassist.repository.AdminRepository;
@@ -24,7 +22,6 @@ public class AdminService {
 	private final AppResponseBuilder appResponseBuilder;
 	private final AdminMapper adminMapper;
 
-
 	public AdminService(AdminRepository adminRepository, AppResponseBuilder appResponseBuilder,
 			AdminMapper adminMapper) {
 		super();
@@ -32,16 +29,21 @@ public class AdminService {
 		this.appResponseBuilder = appResponseBuilder;
 		this.adminMapper = adminMapper;
 	}
+	
 
 	public AdminResponse addAdmin(AdminRequest userRequest) {
 		Admin user = adminRepository.save(adminMapper.mapToUser(userRequest, new Admin()));
 		return adminMapper.mapToUserResponse(user);
 	}
 	
-	public List<Admin> findAll() {
-		return adminRepository.findAll();
+	public List<AdminResponse> findAllAdmins() {
+		return adminRepository.findAll()
+							  .stream()
+							  .map(adminMapper::mapToUserResponse)
+							  .toList();
 	}
 
+	
 	public Optional<Admin> findById(String id) {
 		return adminRepository.findById(id);
 	}

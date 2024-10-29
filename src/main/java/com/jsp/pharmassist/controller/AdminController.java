@@ -30,16 +30,18 @@ public class AdminController {
 		this.builder = builder;
 	}
 
+	
 	@PostMapping("/admins")
 	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(@RequestBody @Valid AdminRequest adminRequest) {
 		AdminResponse response = adminService.addAdmin(adminRequest);
-		return builder.success(HttpStatus.CREATED, "Added Successfully", response);
+		return builder.success(HttpStatus.CREATED, "Admin created successfully", response);
 
 	}
     
-    @GetMapping
-    public List<Admin> getAllAdmins() {
-        return adminService.findAll();
+    @GetMapping(value = "/admins")
+    public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAllAdmins() {
+        List<AdminResponse> response = adminService.findAllAdmins();
+        return builder.success(HttpStatus.FOUND, "Admins found",response );
     }
 
     @GetMapping("/{id}")
