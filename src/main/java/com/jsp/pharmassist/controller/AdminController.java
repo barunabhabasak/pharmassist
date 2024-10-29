@@ -15,6 +15,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+   
+    @PostMapping
+    public Admin createAdmin(@RequestBody Admin admin) {
+        return adminService.save(admin);
+    }
+    
     @GetMapping
     public List<Admin> getAllAdmins() {
         return adminService.findAll();
@@ -24,12 +30,7 @@ public class AdminController {
     public Optional<Admin> getAdminById(@PathVariable String id) {
         return adminService.findById(id);
     }
-
-    @PostMapping
-    public Admin createAdmin(@RequestBody Admin admin) {
-        return adminService.save(admin);
-    }
-
+    
     @PutMapping("/{id}")
     public Admin updateAdmin(@PathVariable String id, @RequestBody Admin admin) {
         admin.setAdminId(id);
