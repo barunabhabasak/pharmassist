@@ -26,10 +26,10 @@ public class ResponseStructure<T> {
 		this.data = data;
 	}
 
-	public static <T> ResponseStructure<T> create(HttpStatus status,String message, T user){
+	public static <T> ResponseStructure<T> create(HttpStatus status,String message, T admin){
 		
 		ResponseStructure<T> structure = new ResponseStructure<T>();
-		structure.setData(user);
+		structure.setData(admin);
 		structure.setMessage(message);
 		structure.setStatuscode(status.value());
 		
