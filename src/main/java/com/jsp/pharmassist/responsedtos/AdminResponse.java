@@ -1,6 +1,7 @@
 package com.jsp.pharmassist.responsedtos;
 
 public class AdminResponse {
+	
 	private String adminId;
 	private String email;
 	private String phoneNo;
