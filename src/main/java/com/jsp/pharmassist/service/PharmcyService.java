@@ -2,8 +2,8 @@ package com.jsp.pharmassist.service;
 
 import org.springframework.stereotype.Service;
 
-import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.entity.Pharmacy;
+import com.jsp.pharmassist.exception.PharmacyNotFoundByIdException;
 import com.jsp.pharmassist.mapper.PharmcyMapper;
 import com.jsp.pharmassist.repository.PharmcyRepository;
 import com.jsp.pharmassist.requestdtos.PharmacyRequest;
@@ -31,6 +31,12 @@ public class PharmcyService {
 	public PharmcyResponse addPharmcy(@Valid PharmacyRequest pharmcyRequest) {
 		Pharmacy pharmacy = pharmcyRepository.save(mapper.mapToPharmcy(pharmcyRequest, new Pharmacy()));
 		return mapper.mapToPharmcyResponse(pharmacy);
+	}
+
+	public PharmcyResponse findPharmacyById(String pharmacyId) {
+		return pharmcyRepository.findById(pharmacyId)
+				.map(mapper :: mapToPharmcyResponse)
+				.orElseThrow(()-> new PharmacyNotFoundByIdException("Failed to find the Pharmacy"));
 	}
 	
 	
