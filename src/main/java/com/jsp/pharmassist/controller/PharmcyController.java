@@ -2,6 +2,8 @@ package com.jsp.pharmassist.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +39,9 @@ public class PharmcyController {
 
 	}
 	
-
+	@GetMapping("/pharmacies/{pharmacyId}")
+	public ResponseEntity<ResponseStructure<PharmcyResponse>> findAdminById(@PathVariable String pharmacyId) {
+		PharmcyResponse response = pharmcyService.findPharmacyById(pharmacyId);	
+		return builder.success(HttpStatus.FOUND, "Found successfully", response);
+	}
 }
