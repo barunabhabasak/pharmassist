@@ -2,7 +2,6 @@ package com.jsp.pharmassist.service;
 
 import org.springframework.stereotype.Service;
 
-import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.entity.Pharmacy;
 import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
 import com.jsp.pharmassist.mapper.PharmcyMapper;
@@ -45,7 +44,4 @@ public class PharmcyService {
 				})
 				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
-
-	
-
 }

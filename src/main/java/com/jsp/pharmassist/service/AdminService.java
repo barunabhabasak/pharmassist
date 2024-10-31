@@ -33,9 +33,9 @@ public class AdminService {
 	}
 
 
-	public AdminResponse addAdmin(AdminRequest userRequest) {
-		Admin user = adminRepository.save(adminMapper.mapToAdmin(userRequest, new Admin()));
-		return adminMapper.mapToAdminResponse(user);
+	public AdminResponse addAdmin(AdminRequest adminRequest) {
+		Admin admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, new Admin()));
+		return adminMapper.mapToAdminResponse(admin);
 	}
 
 	public List<AdminResponse> findAllAdmins() {
@@ -49,7 +49,7 @@ public class AdminService {
 	public AdminResponse findAdminById(String adminId) {
 		return adminRepository.findById(adminId)
 				.map(adminMapper :: mapToAdminResponse)
-				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the user"));
+				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
 
 	public AdminResponse updateAdmin(AdminRequest adminRequest, String adminId) {
@@ -60,18 +60,18 @@ public class AdminService {
 					  return adminRepository.save(exAdmin);
 				  })
 				  .map(adminMapper :: mapToAdminResponse)
-				  .orElseThrow(() -> new AdminNotFoundByIdException("Failed to Update the user"));
+				  .orElseThrow(() -> new AdminNotFoundByIdException("Failed to Update the admin"));
 	}
 
 
 	public AdminResponse deleteAdminById(String adminId) {
 
 		return adminRepository.findById(adminId)
-				.map(user ->{
-					adminRepository.delete(user);
-					return user;
+				.map(admin ->{
+					adminRepository.delete(admin);
+					return admin;
 				})
 				.map(adminMapper :: mapToAdminResponse)
-				.orElseThrow(() ->new AdminNotFoundByIdException("Failed to Delete the user"));
+				.orElseThrow(() ->new AdminNotFoundByIdException("Failed to Delete the admin"));
 	}
 }
