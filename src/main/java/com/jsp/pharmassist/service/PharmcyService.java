@@ -40,10 +40,7 @@ public class PharmcyService {
 					admin.setPharmacy(pharmacy);
 					adminRepository.save(admin);
 					return mapper.mapToPharmcyResponse(pharmacy);
-
 				})
 				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
-
-
 }

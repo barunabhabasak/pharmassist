@@ -7,17 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsp.pharmassist.requestdtos.AdminRequest;
 import com.jsp.pharmassist.requestdtos.PharmacyRequest;
-import com.jsp.pharmassist.responsedtos.AdminResponse;
 import com.jsp.pharmassist.responsedtos.PharmcyResponse;
 import com.jsp.pharmassist.service.PharmcyService;
 import com.jsp.pharmassist.util.AppResponseBuilder;
 import com.jsp.pharmassist.util.ResponseStructure;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

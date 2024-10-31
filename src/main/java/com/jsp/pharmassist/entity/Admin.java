@@ -18,7 +18,7 @@ public class Admin {
 	
 	@OneToOne
 	private Pharmacy pharmacy;
-	
+
 	public Pharmacy getPharmacy() {
 		return pharmacy;
 	}
