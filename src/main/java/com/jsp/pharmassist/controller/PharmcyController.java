@@ -2,7 +2,6 @@ package com.jsp.pharmassist.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,9 @@ import com.jsp.pharmassist.util.AppResponseBuilder;
 import com.jsp.pharmassist.util.ResponseStructure;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class PharmcyController {
@@ -32,16 +34,14 @@ public class PharmcyController {
 	}
 
 
-	@PostMapping("/pharmacies")
-	public ResponseEntity<ResponseStructure<PharmcyResponse>> createPharmcy(@RequestBody @Valid PharmacyRequest pharmcyRequest) {
-		PharmcyResponse response = pharmcyService.addPharmcy(pharmcyRequest);
-		return builder.success(HttpStatus.CREATED, "PharmcyS created successfully", response);
-
+	@PostMapping("/admins/{adminId}/pharmacies")
+	public ResponseEntity<ResponseStructure<PharmcyResponse>> createPharmcy(@RequestBody @Valid PharmacyRequest pharmcyRequest,@PathVariable String adminId) {
+		PharmcyResponse response = pharmcyService.addPharmcy(pharmcyRequest,adminId);
+		return builder.success(HttpStatus.CREATED, "Pharmcy created successfully", response);
 	}
 	
-	@GetMapping("/pharmacies/{pharmacyId}")
-	public ResponseEntity<ResponseStructure<PharmcyResponse>> findAdminById(@PathVariable String pharmacyId) {
-		PharmcyResponse response = pharmcyService.findPharmacyById(pharmacyId);	
-		return builder.success(HttpStatus.FOUND, "Found successfully", response);
-	}
+	
+	
+  
+
 }
