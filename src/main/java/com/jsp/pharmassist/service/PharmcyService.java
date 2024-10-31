@@ -2,10 +2,8 @@ package com.jsp.pharmassist.service;
 
 import org.springframework.stereotype.Service;
 
-import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.entity.Pharmacy;
 import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
-import com.jsp.pharmassist.exception.PharmacyNotFoundByIdException;
 import com.jsp.pharmassist.mapper.PharmcyMapper;
 import com.jsp.pharmassist.repository.AdminRepository;
 import com.jsp.pharmassist.repository.PharmcyRepository;
@@ -33,29 +31,19 @@ public class PharmcyService {
 		this.adminRepository = adminRepository;
 	}
 
-	public PharmcyResponse addPharmcy(@Valid PharmacyRequest pharmcyRequest) {
-		//		Pharmacy pharmacy = pharmcyRepository.save(mapper.mapToPharmcy(pharmcyRequest, new Pharmacy()));
+	public PharmcyResponse addPharmcy(@Valid PharmacyRequest pharmcyRequest,String adminId) {
 
-		Pharmacy pharmacy = mapper.mapToPharmcy(pharmcyRequest, new Pharmacy());
+		return	adminRepository.findById(adminId)
+				.map(admin ->{
+					Pharmacy pharmacy = mapper.mapToPharmcy(pharmcyRequest,new Pharmacy());
+					pharmacy = pharmcyRepository.save(pharmacy);
+					admin.setPharmacy(pharmacy);
+					adminRepository.save(admin);
+					return mapper.mapToPharmcyResponse(pharmacy);
 
-		// Check if the pharmacy ID exists in the Admin table
-		Admin admin = adminRepository.findById(pharmacy.getPharmacyId())
-				.orElseThrow(()-> new AdminNotFoundByIdException("Admin not found with ID: " + pharmacy.getPharmacyId()));
-
-		// Save Pharmacy entity
-		Pharmacy savePharmacy = pharmcyRepository.save(pharmacy);
-
-		// Update Admin entity with the new Pharmacy
-		admin.setPharmacy(savePharmacy);
-		adminRepository.save(admin); // Save Admin with the associated Pharmacy
-
-		return mapper.mapToPharmcyResponse(pharmacy);
+				})
+				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
 
-	public PharmcyResponse findPharmacyById(String pharmacyId) {	
-		return pharmcyRepository.findById(pharmacyId)
-				.map(mapper :: mapToPharmcyResponse)
-				.orElseThrow(()-> new PharmacyNotFoundByIdException("Failed to find the Pharmacy"));
-	}
 
 }

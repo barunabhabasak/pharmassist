@@ -8,6 +8,7 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Pharmacy {
+	
 	@Id
 	@GenerateCustomId
 	private String pharmacyId;

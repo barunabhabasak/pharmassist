@@ -5,8 +5,10 @@ import com.jsp.pharmassist.config.GenerateCustomId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+
 @Entity
 public class Admin {
+	
 	@Id
 	@GenerateCustomId
 	private String adminId;
@@ -47,7 +49,7 @@ public class Admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+
 
 }
