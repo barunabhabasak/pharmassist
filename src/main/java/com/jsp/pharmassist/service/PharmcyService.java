@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.jsp.pharmassist.entity.Pharmacy;
 import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
+import com.jsp.pharmassist.exception.PharmacyNotFoundByIdException;
 import com.jsp.pharmassist.mapper.PharmcyMapper;
 import com.jsp.pharmassist.repository.AdminRepository;
 import com.jsp.pharmassist.repository.PharmcyRepository;
@@ -54,7 +55,17 @@ public class PharmcyService {
 				.orElseThrow(()-> new AdminNotFoundByIdException("Failed to find the phamacy because "
 						+ "of admin is not prsent"));
 	}
-	
-	
-	
+
+	public PharmcyResponse updatePharmacyById(PharmacyRequest pharmcyRequest, String pharmacyId) {
+		return	pharmcyRepository.findById(pharmacyId)
+				.map(exPharmacy ->{
+					mapper.mapToPharmcy(pharmcyRequest, exPharmacy);
+					return pharmcyRepository.save(exPharmacy);
+				})
+				.map(mapper :: mapToPharmcyResponse)
+				.orElseThrow(()-> new PharmacyNotFoundByIdException("Failed to update the Pharmacy"));
+	}
+
+
+
 }
