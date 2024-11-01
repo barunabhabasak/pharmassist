@@ -16,8 +16,8 @@ public class Pharmacy {
 	private String gstNo;
 	private String licenceNo;
 	
-	 @OneToOne(mappedBy = "pharmacy")
-	    private Admin admin;
+	@OneToOne(mappedBy = "pharmacy")
+	private Admin admin;
 	
 	public Admin getAdmin() {
 		return admin;

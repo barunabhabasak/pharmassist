@@ -15,7 +15,7 @@ public class Admin {
 	private String email;
 	private String phoneNo;
 	private String password;
-
+	
 	@OneToOne
 	private Pharmacy pharmacy;
 

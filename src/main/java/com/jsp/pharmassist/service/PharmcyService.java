@@ -40,8 +40,21 @@ public class PharmcyService {
 					admin.setPharmacy(pharmacy);
 					adminRepository.save(admin);
 					return mapper.mapToPharmcyResponse(pharmacy);
-
 				})
 				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
+
+	public PharmcyResponse finaPharmacyByAdminId(String adminId) {
+
+		return adminRepository.findById(adminId)
+				.map(admin ->{
+					Pharmacy pharmacy = admin.getPharmacy();
+					return mapper.mapToPharmcyResponse(pharmacy);
+				})
+				.orElseThrow(()-> new AdminNotFoundByIdException("Failed to find the phamacy because "
+						+ "of admin is not prsent"));
+	}
+	
+	
+	
 }
