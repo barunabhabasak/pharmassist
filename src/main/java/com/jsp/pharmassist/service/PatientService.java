@@ -41,4 +41,15 @@ public class PatientService {
 				})
 				.orElseThrow(()-> new PharmacyNotFoundByIdException("Pharmacy not found with ID: " + pharmacyId));
 	}
+
+
+	public List<PatientResponse> findAllPatientsByPharmacyId(String pharmacyId) {
+		pharmcyRepository.findById(pharmacyId)
+		.orElseThrow(()-> new PharmacyNotFoundByIdException("Pharmacy not found with ID: " + pharmacyId));
+
+		return patientRespository.findAllByPharmacy_PharmacyId(pharmacyId)
+				.stream()
+				.map(patientMapper :: mapToPatientResponse)
+				.toList();
+	}
 }
