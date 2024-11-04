@@ -4,7 +4,11 @@ import com.jsp.pharmassist.config.GenerateCustomId;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Pharmacy {
@@ -19,6 +23,15 @@ public class Pharmacy {
 	@OneToOne(mappedBy = "pharmacy")
 	private Admin admin;
 	
+	@OneToMany(mappedBy = "pharmacy")
+	private List<Patient> patient = new ArrayList<Patient>();
+	
+	public List<Patient> getPatient() {
+		return patient;
+	}
+	public void setPatient(List<Patient> patient) {
+		this.patient = patient;
+	}
 	public Admin getAdmin() {
 		return admin;
 	}
