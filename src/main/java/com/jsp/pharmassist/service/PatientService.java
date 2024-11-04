@@ -52,4 +52,16 @@ public class PatientService {
 				.map(patientMapper :: mapToPatientResponse)
 				.toList();
 	}
+
+
+	public PatientResponse updatePatientById(PatientRequest patientRequest, String patientId) {
+		return	patientRespository.findById(patientId)
+				.map(exPatient ->{
+					patientMapper.mapToPatient(patientRequest, exPatient);
+					return patientRespository.save(exPatient);
+				})
+				.map(patientMapper :: mapToPatientResponse)
+				.orElseThrow(()-> new PharmacyNotFoundByIdException("Failed to update the Pharmacy"));
+
+	}
 }
