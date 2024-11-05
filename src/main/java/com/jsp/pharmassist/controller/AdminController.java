@@ -92,7 +92,7 @@ public class AdminController {
 	public ResponseEntity<ResponseStructure<AdminResponse>> updateUser(@RequestBody AdminRequest userRequest,@PathVariable String adminId ){
 		AdminResponse response = adminService.updateAdmin(userRequest,adminId);
 		return builder.success(HttpStatus.OK, "User Upadted successfully", response);
-	}
+ 	}
 
 	
 	@Operation(description = "The endpoint can be used to delete the admin based on the the Unique ID",
