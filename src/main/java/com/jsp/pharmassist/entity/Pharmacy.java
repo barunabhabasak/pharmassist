@@ -26,6 +26,9 @@ public class Pharmacy {
 	@OneToMany(mappedBy = "pharmacy")
 	private List<Patient> patient = new ArrayList<Patient>();
 	
+	@OneToMany(mappedBy = "pharmacy")
+	private List<Medicine> medicines = new ArrayList<Medicine>();
+	
 	public List<Patient> getPatient() {
 		return patient;
 	}
@@ -34,6 +37,12 @@ public class Pharmacy {
 	}
 	public Admin getAdmin() {
 		return admin;
+	}
+	public List<Medicine> getMedicines() {
+		return medicines;
+	}
+	public void setMedicines(List<Medicine> medicines) {
+		this.medicines = medicines;
 	}
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
