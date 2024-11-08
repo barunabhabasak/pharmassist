@@ -105,9 +105,10 @@ public class MedicineService {
 	}
 
 
-	public List<MedicineResponse> findMedicineByNameOrIngredients(String name, String ingredients) {
+	public List<MedicineResponse> findMedicineByNameOrIngredients(String text) {
 
-		List<Medicine> medicines = medicineRepository.findByNameLikeIgnoreCaseOrIngredientsLikeIgnoreCase(name, ingredients);
+		text = "%" +text+"%";
+		List<Medicine> medicines = medicineRepository.findByNameLikeIgnoreCaseOrIngredientsLikeIgnoreCase(text, text);
 		if(medicines.isEmpty())
 			throw new NoMedicineFoundException("No medicine found");
 		else
