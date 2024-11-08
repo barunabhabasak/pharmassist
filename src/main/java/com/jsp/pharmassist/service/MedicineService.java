@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,9 +19,12 @@ import com.jsp.pharmassist.enums.Form;
 import com.jsp.pharmassist.exception.InvalidDataException;
 import com.jsp.pharmassist.exception.InvalidDateFormatException;
 import com.jsp.pharmassist.exception.InvalidFileFormatException;
+import com.jsp.pharmassist.exception.NoMedicineFoundException;
 import com.jsp.pharmassist.exception.PharmacyNotFoundByIdException;
+import com.jsp.pharmassist.mapper.MedicineMapper;
 import com.jsp.pharmassist.repository.MedicineRepository;
 import com.jsp.pharmassist.repository.PharmcyRepository;
+import com.jsp.pharmassist.responsedtos.MedicineResponse;
 
 import jakarta.validation.Valid;
 
@@ -29,11 +33,14 @@ public class MedicineService {
 
 	private final MedicineRepository medicineRepository;
 	private final PharmcyRepository pharmcyRepository;
+	private final MedicineMapper medicineMapper;
 
-	public MedicineService(MedicineRepository medicineRepository,PharmcyRepository pharmcyRepository) {
+	public MedicineService(MedicineRepository medicineRepository,PharmcyRepository pharmcyRepository
+			,MedicineMapper medicineMapper) {
 		super();
 		this.medicineRepository = medicineRepository;
 		this.pharmcyRepository = pharmcyRepository;
+		this.medicineMapper = medicineMapper;
 	}
 
 
@@ -83,7 +90,7 @@ public class MedicineService {
 			medicine.setStockQuantity((int) row.getCell(8).getNumericCellValue());
 		}
 		catch(DateTimeParseException ex) {
-			throw new InvalidDateFormatException("Invalid date format in row " + row.getRowNum() );
+			throw new InvalidDateFormatException("Invalid date format in row " + row.getRowNum());
 		}
 		catch(IllegalStateException e) {
 			throw new InvalidDataException("Data is in invalid format in row "+row.getRowNum());
@@ -95,6 +102,18 @@ public class MedicineService {
 
 		medicineRepository.save(medicine); 
 
+	}
+
+
+	public List<MedicineResponse> findMedicineByNameOrIngredients(String name, String ingredients) {
+
+		List<Medicine> medicines = medicineRepository.findByNameLikeIgnoreCaseOrIngredientsLikeIgnoreCase(name, ingredients);
+		if(medicines.isEmpty())
+			throw new NoMedicineFoundException("No medicine found");
+		else
+			return	medicines.stream()
+					.map(medicineMapper :: mapToMedicineResponse)
+					.toList();
 	}
 
 

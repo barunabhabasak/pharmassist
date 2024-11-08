@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.jsp.pharmassist.exception.InvalidDataException;
 import com.jsp.pharmassist.exception.InvalidDateFormatException;
 import com.jsp.pharmassist.exception.InvalidFileFormatException;
+import com.jsp.pharmassist.exception.NoMedicineFoundException;
 import com.jsp.pharmassist.util.AppResponseBuilder;
 import com.jsp.pharmassist.util.ErrorStructure;
 
@@ -36,6 +37,11 @@ public class MedicineExceptionHandler {
 	@ExceptionHandler(InvalidFileFormatException.class)
 	public ResponseEntity<ErrorStructure> handleInvalidFileFomat(InvalidFileFormatException ex){
 		return appResponseBuilder.error(HttpStatus.BAD_REQUEST, ex.getMessage(), "File should be in .xlxs format");
+	}
+	
+	@ExceptionHandler(NoMedicineFoundException.class)
+	public ResponseEntity<ErrorStructure> handleNoMedicineFound(NoMedicineFoundException ex){
+		return appResponseBuilder.error(HttpStatus.NOT_FOUND, ex.getMessage(), "No medicine found based on the criteria");
 	}
 
 }
