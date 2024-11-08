@@ -59,9 +59,9 @@ public class MedicineController {
 							@Content(schema = @Schema(implementation = ErrorStructure.class))
 					})
 	})
-	@GetMapping("medicines/{name}/{ingredients}")
+	@GetMapping("/medicines")
 	public ResponseEntity<ResponseStructure<List<MedicineResponse>>> findMedicineByNameOrIngredients(
-			@PathVariable String name,@PathVariable String ingredients){
+			@RequestParam String name,@RequestParam String ingredients){
 		
 		List<MedicineResponse> responses = medicineService.findMedicineByNameOrIngredients(name,ingredients);
 		return appResponseBuilder.success(HttpStatus.FOUND, "Medicine found successfully",responses);
