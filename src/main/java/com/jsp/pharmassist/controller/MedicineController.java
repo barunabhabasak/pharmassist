@@ -61,9 +61,9 @@ public class MedicineController {
 	})
 	@GetMapping("/medicines")
 	public ResponseEntity<ResponseStructure<List<MedicineResponse>>> findMedicineByNameOrIngredients(
-			@RequestParam String name,@RequestParam String ingredients){
+			@RequestParam String text){
 		
-		List<MedicineResponse> responses = medicineService.findMedicineByNameOrIngredients(name,ingredients);
+		List<MedicineResponse> responses = medicineService.findMedicineByNameOrIngredients(text);
 		return appResponseBuilder.success(HttpStatus.FOUND, "Medicine found successfully",responses);
 		
 	}
