@@ -12,6 +12,7 @@ import com.jsp.pharmassist.util.ResponseStructure;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,20 +22,21 @@ import java.util.Optional;
 public class AdminService {
 
 	private final AdminRepository adminRepository;
-	private final AppResponseBuilder appResponseBuilder;
 	private final AdminMapper adminMapper;
+	private final PasswordEncoder encoder;
 
-	public AdminService(AdminRepository adminRepository, AppResponseBuilder appResponseBuilder,
-			AdminMapper adminMapper) {
+	public AdminService(AdminRepository adminRepository,AdminMapper adminMapper,PasswordEncoder encoder) {
 		super();
 		this.adminRepository = adminRepository;
-		this.appResponseBuilder = appResponseBuilder;
 		this.adminMapper = adminMapper;
+		this.encoder = encoder;
 	}
 
 
 	public AdminResponse addAdmin(AdminRequest adminRequest) {
-		Admin admin = adminRepository.save(adminMapper.mapToAdmin(adminRequest, new Admin()));
+		Admin admin =adminMapper.mapToAdmin(adminRequest, new Admin());
+		admin.setPassword(encoder.encode(admin.getPassword()));
+		adminRepository.save(admin);
 		return adminMapper.mapToAdminResponse(admin);
 	}
 
@@ -44,7 +46,6 @@ public class AdminService {
 				.map(adminMapper::mapToAdminResponse)
 				.toList();
 	}
-
 
 	public AdminResponse findAdminById(String adminId) {
 		return adminRepository.findById(adminId)
