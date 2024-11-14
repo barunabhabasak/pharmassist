@@ -2,6 +2,7 @@ package com.jsp.pharmassist.service;
 
 import org.springframework.stereotype.Service;
 
+import com.jsp.pharmassist.entity.Admin;
 import com.jsp.pharmassist.entity.Pharmacy;
 import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
 import com.jsp.pharmassist.exception.PharmacyNotFoundByIdException;
@@ -10,6 +11,7 @@ import com.jsp.pharmassist.repository.AdminRepository;
 import com.jsp.pharmassist.repository.PharmcyRepository;
 import com.jsp.pharmassist.requestdtos.PharmacyRequest;
 import com.jsp.pharmassist.responsedtos.PharmcyResponse;
+import com.jsp.pharmassist.security.AuthUtils;
 import com.jsp.pharmassist.util.AppResponseBuilder;
 
 import jakarta.validation.Valid;
@@ -22,27 +24,30 @@ public class PharmcyService {
 	private final AdminRepository adminRepository;
 	private final AppResponseBuilder appResponseBuilder;
 	private final PharmcyMapper mapper;
+	private final AuthUtils authUtils;
 
-	public PharmcyService(PharmcyRepository pharmcyRepository, AppResponseBuilder appResponseBuilder,
-			PharmcyMapper mapper,AdminRepository adminRepository) {
+	public PharmcyService(PharmcyRepository pharmcyRepository, AdminRepository adminRepository,
+			AppResponseBuilder appResponseBuilder, PharmcyMapper mapper, AuthUtils authUtils) {
 		super();
 		this.pharmcyRepository = pharmcyRepository;
+		this.adminRepository = adminRepository;
 		this.appResponseBuilder = appResponseBuilder;
 		this.mapper = mapper;
-		this.adminRepository = adminRepository;
+		this.authUtils = authUtils;
 	}
 
-	public PharmcyResponse addPharmcy(@Valid PharmacyRequest pharmcyRequest,String adminId) {
+	public PharmcyResponse addPharmcy(@Valid PharmacyRequest pharmcyRequest) {
+		Admin admin = authUtils.getCurrentAdmin();
 
-		return	adminRepository.findById(adminId)
-				.map(admin ->{
+//		return	adminRepository.findById(adminId)
+//				.map(admin ->{
 					Pharmacy pharmacy = mapper.mapToPharmcy(pharmcyRequest,new Pharmacy());
 					pharmacy = pharmcyRepository.save(pharmacy);
 					admin.setPharmacy(pharmacy);
 					adminRepository.save(admin);
 					return mapper.mapToPharmcyResponse(pharmacy);
-				})
-				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
+//				})
+//				.orElseThrow(() -> new AdminNotFoundByIdException("Failed to find the admin"));
 	}
 
 	public PharmcyResponse finaPharmacyByAdminId(String adminId) {

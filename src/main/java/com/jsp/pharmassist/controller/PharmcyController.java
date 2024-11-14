@@ -46,9 +46,9 @@ public class PharmcyController {
 							@Content(schema = @Schema(implementation = ErrorStructure.class))
 					})
 	})
-	@PostMapping("/admins/{adminId}/pharmacies")
-	public ResponseEntity<ResponseStructure<PharmcyResponse>> createPharmcy(@RequestBody @Valid PharmacyRequest pharmcyRequest,@PathVariable String adminId) {
-		PharmcyResponse response = pharmcyService.addPharmcy(pharmcyRequest,adminId);
+	@PostMapping("/pharmacies")
+	public ResponseEntity<ResponseStructure<PharmcyResponse>> createPharmcy(@RequestBody @Valid PharmacyRequest pharmcyRequest) {
+		PharmcyResponse response = pharmcyService.addPharmcy(pharmcyRequest);
 		return builder.success(HttpStatus.CREATED, "Pharmcy created successfully", response);
 	}
 

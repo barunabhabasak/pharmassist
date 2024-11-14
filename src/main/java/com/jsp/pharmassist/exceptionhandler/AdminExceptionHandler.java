@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.jsp.pharmassist.exception.AdminNotAuthenciatedException;
 import com.jsp.pharmassist.exception.AdminNotFoundByIdException;
 import com.jsp.pharmassist.exception.NoAdminFoundException;
 import com.jsp.pharmassist.util.AppResponseBuilder;
@@ -27,6 +28,11 @@ public class AdminExceptionHandler {
 	@ExceptionHandler(AdminNotFoundByIdException.class)
 	public ResponseEntity<ErrorStructure> handleUserNotFound(AdminNotFoundByIdException ex){
 		return builder.error(HttpStatus.NOT_FOUND, ex.getMessage(), "Admin is not found by id");
+	}
+	
+	@ExceptionHandler(AdminNotAuthenciatedException.class)
+	public ResponseEntity<ErrorStructure> handleAdminNotAuthencated(AdminNotAuthenciatedException ex){
+		return builder.error(HttpStatus.BAD_REQUEST, ex.getMessage(), "Admin is already logged in");
 	}
 
 }
