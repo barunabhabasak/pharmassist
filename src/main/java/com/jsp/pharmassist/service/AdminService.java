@@ -39,14 +39,14 @@ public class AdminService {
 	}
 
 	public AdminResponse addAdmin(AdminRequest adminRequest) {
-		if(authUtils.isAuthenticated()) {
-			throw new AdminNotAuthenciatedException("Admin is not allowed to register");
-		}else {
+//		if(authUtils.isAuthenticated()) {
+//			throw new AdminNotAuthenciatedException("Admin is not allowed to register");
+//		}else {
 			Admin admin =adminMapper.mapToAdmin(adminRequest, new Admin());
 			admin.setPassword(encoder.encode(admin.getPassword()));
 			adminRepository.save(admin);
 			return adminMapper.mapToAdminResponse(admin);
-		}
+//		}
 	}
 
 	public List<AdminResponse> findAllAdmins() {
