@@ -1,5 +1,7 @@
 package com.jsp.pharmassist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jsp.pharmassist.config.GenerateCustomId;
 
 import jakarta.persistence.Entity;
@@ -21,6 +23,7 @@ public class Pharmacy {
 	private String licenceNo;
 	
 	@OneToOne(mappedBy = "pharmacy")
+	@JsonIgnore
 	private Admin admin;
 	
 	@OneToMany(mappedBy = "pharmacy")

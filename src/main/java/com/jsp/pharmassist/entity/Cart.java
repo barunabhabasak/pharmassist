@@ -8,7 +8,6 @@ import com.jsp.pharmassist.config.GenerateCustomId;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity

@@ -1,8 +1,10 @@
 package com.jsp.pharmassist.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jsp.pharmassist.config.GenerateCustomId;
 import com.jsp.pharmassist.enums.Gender;
 
@@ -27,8 +29,18 @@ public class Patient {
 	private LocalDate dateOfBirth;
 	
 	@ManyToOne()
+	@JsonIgnore
 	private Pharmacy pharmacy;
 	
+	@OneToMany(mappedBy = "patient")
+	private List<Bill> bills = new ArrayList<Bill>();
+	
+	public List<Bill> getBills() {
+		return bills;
+	}
+	public void setBills(List<Bill> bills) {
+		this.bills = bills;
+	}
 	public Pharmacy getPharmacy() {
 		return pharmacy;
 	}
