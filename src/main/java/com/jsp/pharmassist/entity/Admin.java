@@ -1,5 +1,7 @@
 package com.jsp.pharmassist.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jsp.pharmassist.config.GenerateCustomId;
 
 import jakarta.persistence.Entity;
@@ -8,15 +10,16 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Admin {
-	
+
 	@Id
 	@GenerateCustomId
 	private String adminId;
 	private String email;
 	private String phoneNo;
 	private String password;
-	
+
 	@OneToOne
+	@JsonIgnore
 	private Pharmacy pharmacy;
 
 	public Pharmacy getPharmacy() {
